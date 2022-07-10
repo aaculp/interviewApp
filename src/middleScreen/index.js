@@ -1,21 +1,24 @@
 // Libraries
 
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components'
 
 // Dependencies
 
+import NavBar from '../NavBar';
+
 // Private
 
 const StyledContainer = styled.div`
-  background-color: #f6dee1;
-  display: flex;
   align-items: center;
+  background: #F6DEE1;
+  display: flex;
   flex-direction: column;
-  justify-content: space-around;
   height: 100vh;
-  width: 100vw;
+  justify-content: space-around;
+  position: relative;
+  width: 100%;
 `;
 
 const StyledTypography = styled.span`
@@ -35,24 +38,31 @@ const StyledButton = styled(Link)`
   }
 `;
 
-
+// Public
 
 const MiddleScreen = () => {
   const location = useLocation();
+  const [playerName] = useState(location.state.playerName)
 
-  console.log("this is location", location)
+  console.log("this is location", location.state)
   return (
     <StyledContainer>
-      <StyledTypography>This is the middle page</StyledTypography>
-      <StyledButton 
-        to="/resultsScreen" 
-        state={{
-          // this is where i will add state to pass on
-        }}
-        onClick={() => console.log("just clicked me")}
-      >Submit!</StyledButton>
+      <NavBar />
+      <div style={{display: 'flex', flexDirection:"column", alignItems:'center', justifyContent: 'center',}}>
+        <StyledTypography>This is the middle page</StyledTypography>
+
+      </div>
     </StyledContainer>
   )
 }
 
-export default MiddleScreen
+export default MiddleScreen;
+
+{/* <StyledButton 
+// to="/resultsScreen" 
+to=""
+state={{
+  // this is where i will add state to pass on
+}}
+onClick={() => console.log("just clicked me")}
+>Submit!</StyledButton> */}

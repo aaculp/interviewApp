@@ -1,19 +1,21 @@
 // Libraries
 
 import React, { useState } from 'react'
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 
 // Dependencies
 
+// Private
+
 const StyledContainer = styled.div`
-  background-color: #f6dee1;
+  background: #F6DEE1;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
 `;
 
 const StyledInfoContainer = styled.div`
@@ -21,7 +23,13 @@ const StyledInfoContainer = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
-  width: 75%;
+  padding: 0 50px;
+  text-align: center;
+
+  label {
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
 `;
 
 const StyledTypography = styled.span`
@@ -32,7 +40,15 @@ const StyledTypography = styled.span`
 
 const StyledLabelContainer = styled.label`
   ${({ $textSize}) => `
-    font-size: ${$textSize};
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+
+    label {
+      align-items: flex-start;
+      justify-content: flex-start;
+    }
   `}
 `;
 
@@ -49,9 +65,11 @@ const StyledButton = styled(Link)`
   }
 `;
 
+// Public 
 
 const HomeScreen = () => {
-  const [playerName, setPlayerName] = useState('');
+  const location = useLocation()
+  const [playerName, setPlayerName] = useState(location.state?.playerName ? location.state.playerName : '' );
 
   return (
     <StyledContainer>
@@ -61,8 +79,8 @@ const HomeScreen = () => {
       </StyledInfoContainer>
 
       <StyledLabelContainer>
-        Enter Name: 
-        <input type="text" name="name" onChange={(e) => setPlayerName(e.target.value)} />
+        Enter Your Name: 
+        <input type="text" name="name" value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
       </StyledLabelContainer>
 
       <StyledButton 
