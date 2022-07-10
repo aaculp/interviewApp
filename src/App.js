@@ -1,6 +1,5 @@
 // Libraries
 
-import './App.css';
 import {
   BrowserRouter,
   Routes,
@@ -21,7 +20,7 @@ const App = () => {
       <Routes>
         <Route path='/' element={<HomeScreen />} />
         <Route path='/middleScreen' element={<MiddleScreen />} />
-        <Route path='/results' element={<ResultsScreen />} />
+        <Route path='/resultsScreen' element={<ResultsScreen />} />
       </Routes>
     </BrowserRouter>
   );
