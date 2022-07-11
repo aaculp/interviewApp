@@ -1,7 +1,7 @@
 // Libraries
 
 import React, { useState, useCallback, useEffect } from 'react'
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 
 // Dependencies
@@ -87,7 +87,7 @@ const MiddleScreen = () => {
 
   useEffect(() => {
     if(guessesLeft === 0) {
-      // alert("You ran out of guesses and lost! Play Again!!");
+      alert(`Sorry you lost, the random number was ${randomNumber}`)
       navigate("/resultsScreen")
     } else {
       if(guessesLeft === 1) {
@@ -98,13 +98,13 @@ const MiddleScreen = () => {
         setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
       }
     }
-  }, [guessesLeft, navigate])
+  }, [guessesLeft, randomNumber, navigate])
 
   useEffect(() => {
     if(guessedCorrectly) {
-      return navigate("/resultsScreen");
+      navigate("/resultsScreen");
     }
-  }, [guessedCorrectly, navigate])
+  }, [guessedCorrectly, randomNumber, navigate])
 
 
   return (
@@ -113,7 +113,6 @@ const MiddleScreen = () => {
       <StyledContentContainer>
         <StyledTypography $textSize="25px">We've Generated A Random Number Between 1 - 20</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "10px"}}>Now You Have To Guess It In 5 Guesses Or Less!</StyledTypography>
-        <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>The Random Number is: {randomNumber}</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>Guesses Left: {guessesLeft}</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px", color: 'red'}}>{wrongAnswer}</StyledTypography>
 
