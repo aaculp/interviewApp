@@ -1,7 +1,7 @@
 // Libraries
 
-import React, { useState } from 'react'
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components';
 
 // Dependencies
@@ -41,35 +41,47 @@ const StyledTypography = styled.span`
 const StyledLabelContainer = styled.label`
   ${({ $textSize}) => `
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-start;
 
-    label {
-      align-items: flex-start;
-      justify-content: flex-start;
+    input {
+      margin-top: 10px;
     }
   `}
 `;
 
-const StyledButton = styled(Link)`
-  font-size: 50px;
-  text-decoration: none;
+const StyledButton = styled.button`
+  ${({ $disabledButton }) => `
+    background-color: white;
+    border: ${$disabledButton ? '2px solid gray' : '2px solid hotpink'};
+    border-radius: 25px;
+    color: ${$disabledButton ? 'gray' : 'hotpink'};
+    cursor: ${$disabledButton ? 'not-allowed' : 'pointer'};
+    font-size: 50px;
+    padding: 15px 30px;
+    text-decoration: none;
 
-  &&:visited {
-    color: black;
-  }
-
-  &&:hover {
-    color: hotpink;
-  }
+    &&:visited {
+      color: hotpink;
+    }
+  `}
 `;
 
 // Public 
 
 const HomeScreen = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
   const [playerName, setPlayerName] = useState(location.state?.playerName ? location.state.playerName : '' );
+  const [disabledButton, setDisabledButton] = useState(true);
+
+  useEffect(() => {
+    if(playerName === '') {
+      return setDisabledButton(true);
+    }
+    return setDisabledButton(false);
+  }, [playerName])
 
   return (
     <StyledContainer>
@@ -79,16 +91,17 @@ const HomeScreen = () => {
       </StyledInfoContainer>
 
       <StyledLabelContainer>
-        Enter Your Name: 
+        Enter Your Name To Begin: 
         <input type="text" name="name" value={playerName} onChange={(e) => setPlayerName(e.target.value)} />
       </StyledLabelContainer>
 
       <StyledButton 
-        type="submit" value="Submit"
-        to="/middleScreen" 
-        state={{
-          // this is where i will add state to pass on
-          playerName
+        disabled={disabledButton}
+        $disabledButton={disabledButton}
+        type="button" 
+        value="Submit"
+        onClick={() => {
+          navigate("/middleScreen", {state: {playerName}})
         }}
       >Start!</StyledButton>
     </StyledContainer>

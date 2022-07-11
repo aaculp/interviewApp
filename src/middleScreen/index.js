@@ -51,49 +51,62 @@ const StyledLabelContainer = styled.label`
 `;
 
 const StyledButton = styled.button`
-    background-color: transparent;
-    border-color: transparent;
+  ${({ $disabledButton }) => `
+    background-color: white;
+    border: 2px solid hotpink;
+    border-radius: 25px;
+    color: hotpink;
     cursor: pointer;
     font-size: 50px;
+    margin-top: 25px;
+    padding: 15px 30px;
     text-decoration: none;
 
     &&:visited {
-      color: black;
-    }
-
-    &&:hover {
       color: hotpink;
     }
+  `}
 `;
 
 // Public
 
 const MiddleScreen = () => {
   const navigate = useNavigate()
-  const { randomNumber, guessedCorrectly, isGuessCorrect } = useNumberGenerator();
+  const { randomNumber, guessedCorrectly, guessesLeft, isGuessCorrect } = useNumberGenerator();
   const [playerGuessed, setPlayerGuessed] = useState(0);
   const [wrongAnswer, setWrongAnswer] = useState("")
 
   const handleOnClick = useCallback(() => {
-    console.log("hitting this")
     isGuessCorrect(playerGuessed)
 
     if(guessedCorrectly) {
-      setWrongAnswer(true)
-      return navigate("/resultsScreen");
-    } else {
-    // set some type of state to tell him to guess again
+      navigate("/resultsScreen");
     }
 
   }, [isGuessCorrect, playerGuessed, guessedCorrectly, navigate])
+
+  useEffect(() => {
+    if (guessesLeft === 5) {
+      setWrongAnswer("")
+    } else if (guessesLeft >= 2 || guessesLeft <= 4 ) {
+      setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
+    } else if (guessesLeft === 1) {
+      setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`)
+    } else {
+      alert("You ran out of guesses and lost! Play Again!!");
+      navigate("/resultsScreen")
+    }
+  }, [guessesLeft, navigate])
 
   return (
     <StyledContainer>
       <NavBar />
       <StyledContentContainer>
         <StyledTypography $textSize="25px">We've Generated A Random Number Between 1 - 20</StyledTypography>
-        <StyledTypography $textSize="25px">Now You Have To Guess It!</StyledTypography>
+        <StyledTypography $textSize="25px" style={{paddingTop: "10px"}}>Now You Have To Guess It In 5 Guesses Or Less!</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>The Random Number is: {randomNumber}</StyledTypography>
+        <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>Guesses Left: {guessesLeft}</StyledTypography>
+        <StyledTypography $textSize="25px" style={{paddingTop: "30px", color: 'red'}}>{wrongAnswer}</StyledTypography>
 
         <StyledLabelContainer>
           Enter Your Guess:

@@ -25,7 +25,7 @@ const StyledContainer = styled.div`
 const StyledButton = styled(Link)`
     font-size: 50px;
     position: absolute;
-    left: 0;
+    left: 10px;
     text-decoration: none;
 
     &&:visited {
