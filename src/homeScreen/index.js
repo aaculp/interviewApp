@@ -90,7 +90,6 @@ const HomeScreen = () => {
           // this is where i will add state to pass on
           playerName
         }}
-        onClick={() => console.log("just clicked me")}
       >Start!</StyledButton>
     </StyledContainer>
   )

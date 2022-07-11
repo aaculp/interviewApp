@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 const StyledContainer = styled.div`
     background: #F3C6CF;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -18,26 +18,29 @@ const StyledContainer = styled.div`
     display: flex;
     align-items: center;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-around;
 `;
 
-const StyledButtonContainer = styled.div`
+const StyledButton = styled(Link)`
+    font-size: 50px;
     position: absolute;
-    left: 25px;
-    top: 0;
+    left: 0;
+    text-decoration: none;
 
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-around;
+    &&:visited {
+        color: black;
+    }
+
+    &&:hover {
+        color: hotpink;
+    }
 `;
 
 const StyledInfoContainer = styled.div`
     display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-around;
-    width: 50%;
+    justify-content: center;
+    width: 100%;
 
     label {
         align-items: flex-start;
@@ -51,19 +54,6 @@ const StyledTypography = styled.span`
     `}
 `;
 
-const StyledButton = styled(Link)`
-    font-size: 50px;
-    text-decoration: none;
-
-    &&:visited {
-        color: black;
-    }
-
-    &&:hover {
-        color: hotpink;
-    }
-`;
-
 // Public 
 
 const NavBar = () => {
@@ -72,17 +62,13 @@ const NavBar = () => {
 
     return (
         <StyledContainer>
-            <StyledButtonContainer>
-                <StyledButton 
-                    type="submit" value="Submit"
-                    to="/" 
-                    state={{
-                        playerName
-                    }}
-                >
-                Back 
-                </StyledButton> 
-            </StyledButtonContainer>
+            <StyledButton 
+                type="submit" value="Submit"
+                to="/" 
+                state={{
+                    playerName
+                }}
+            >Back</StyledButton> 
             <StyledInfoContainer>
                 <StyledTypography $textSize="50px">Good Luck, {playerName}</StyledTypography>
             </StyledInfoContainer>
