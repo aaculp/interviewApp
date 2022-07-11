@@ -1,7 +1,7 @@
 // Libraries
 
 import React, { useState, useCallback, useEffect } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components'
 
 // Dependencies
@@ -71,19 +71,15 @@ const StyledButton = styled.button`
 // Public
 
 const MiddleScreen = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const location = useLocation();
   const { randomNumber, guessedCorrectly, guessesLeft, isGuessCorrect } = useNumberGenerator();
   const [playerGuessed, setPlayerGuessed] = useState(0);
-  const [wrongAnswer, setWrongAnswer] = useState("")
+  const [wrongAnswer, setWrongAnswer] = useState("");
 
   const handleOnClick = useCallback(() => {
     isGuessCorrect(playerGuessed)
-
-    if(guessedCorrectly) {
-      navigate("/resultsScreen");
-    }
-
-  }, [isGuessCorrect, playerGuessed, guessedCorrectly, navigate])
+  }, [isGuessCorrect, playerGuessed])
 
   useEffect(() => {
     if(guessesLeft === 0) {
@@ -102,9 +98,13 @@ const MiddleScreen = () => {
 
   useEffect(() => {
     if(guessedCorrectly) {
-      navigate("/resultsScreen");
+      navigate("/resultsScreen", {
+        state: {
+          randomNumber, playerName: location.state.playerName
+        }
+      });
     }
-  }, [guessedCorrectly, randomNumber, navigate])
+  }, [guessedCorrectly, randomNumber, navigate, location])
 
 
   return (
@@ -113,6 +113,7 @@ const MiddleScreen = () => {
       <StyledContentContainer>
         <StyledTypography $textSize="25px">We've Generated A Random Number Between 1 - 20</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "10px"}}>Now You Have To Guess It In 5 Guesses Or Less!</StyledTypography>
+        <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>The Random Number is: {randomNumber}</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>Guesses Left: {guessesLeft}</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px", color: 'red'}}>{wrongAnswer}</StyledTypography>
 
