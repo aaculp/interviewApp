@@ -86,17 +86,26 @@ const MiddleScreen = () => {
   }, [isGuessCorrect, playerGuessed, guessedCorrectly, navigate])
 
   useEffect(() => {
-    if (guessesLeft === 5) {
-      setWrongAnswer("")
-    } else if (guessesLeft >= 2 || guessesLeft <= 4 ) {
-      setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
-    } else if (guessesLeft === 1) {
-      setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`)
-    } else {
-      alert("You ran out of guesses and lost! Play Again!!");
+    if(guessesLeft === 0) {
+      // alert("You ran out of guesses and lost! Play Again!!");
       navigate("/resultsScreen")
+    } else {
+      if(guessesLeft === 1) {
+        setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`)
+      } else if (guessesLeft === 5)  {
+        setWrongAnswer("")
+      } else {
+        setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
+      }
     }
   }, [guessesLeft, navigate])
+
+  useEffect(() => {
+    if(guessedCorrectly) {
+      return navigate("/resultsScreen");
+    }
+  }, [guessedCorrectly, navigate])
+
 
   return (
     <StyledContainer>
