@@ -7,7 +7,8 @@ import { AppContext } from '../global-state/context'
 // Dependencies
 
 const useNumberGenerator = () => {
-    const context = useContext(AppContext)
+    const context = useContext(AppContext);
+    
     const { state, dispatch } = context;
     const { randomNumber } = state;
 

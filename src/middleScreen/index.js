@@ -76,7 +76,8 @@ const MiddleScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { randomNumber } = useNumberGenerator();
-  const { guessedCorrectly, guessesLeft, isGuessCorrect, resetGuesses } = useGuessChecker();
+  const { guessesLeft, isGuessCorrect, resetGuesses } = useGuessChecker();
+  
   const [playerGuessed, setPlayerGuessed] = useState(0);
   const [wrongAnswer, setWrongAnswer] = useState("");
   const [isClicked, setIsClicked] = useState(false);

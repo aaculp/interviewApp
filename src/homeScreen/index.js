@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components';
-import useNumberGenerator from '../hooks/useNumberGenerator';
 
 // Dependencies
 
@@ -74,6 +73,7 @@ const StyledButton = styled.button`
 const HomeScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  
   const [playerName, setPlayerName] = useState(location.state?.playerName ? location.state.playerName : '' );
   const [disabledButton, setDisabledButton] = useState(true);
 

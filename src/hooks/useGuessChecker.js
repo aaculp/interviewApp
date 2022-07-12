@@ -65,7 +65,7 @@ const useNumberGenerator = () => {
         }
       }, [guessedCorrectly, navigate, location, randomNumber, guessedCorretlyFalse, resetGuesses])
 
-    return { guessedCorrectly, guessesLeft, isGuessCorrect, resetGuesses }
+    return { guessesLeft, isGuessCorrect, resetGuesses }
 }
 
 export default useNumberGenerator;

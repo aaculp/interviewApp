@@ -50,7 +50,6 @@ const ResultsScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  console.log("this is location", location)
   const [randomNumber] = useState(location.state?.randomNumber ? location.state?.randomNumber : 0);
   const [playerName] = useState(location.state?.playerName ? location.state?.playerName : '');
 
