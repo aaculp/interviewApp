@@ -1,27 +1,36 @@
-// Dependencies
-
-import { initialState } from "./context";
-
-const INITIALIZE_QUIZ = 'INITIALIZE_QUIZ';
-const RESET_QUIZ = 'RESET_QUIZ';
+const GUESSED_CORRECTLY = 'GUESSED_CORRECTLY';
+const GUESSES_LEFT = 'GUESSES_LEFT';
+const GUESSES_RESET = 'GUESSES_RESET';
+const RANDOM_NUMBER = 'RANDOM_NUMBER';
 
 export const actions = {
-    INITIALIZE_QUIZ,
-    RESET_QUIZ
+    GUESSED_CORRECTLY,
+    GUESSES_LEFT,
+    GUESSES_RESET,
+    RANDOM_NUMBER,
 }
 
 export const reducer = (state, action) => {
     switch(action.type) {
-        case INITIALIZE_QUIZ:
+        case GUESSED_CORRECTLY:
             return {
                 ...state,
-                initialized: true
+                guessedCorrectly: action.guessedCorrectly
             }
-        case RESET_QUIZ:
+        case GUESSES_LEFT:
             return {
                 ...state,
-                ...initialState, 
-                initialized: true
+                guessesLeft: state.guessesLeft - 1
+            }
+        case GUESSES_RESET:
+            return {
+                ...state,
+                guessesLeft: 5
+            }
+        case RANDOM_NUMBER:
+            return {
+                ...state,
+                randomNumber: action.randomNumber
             }
         default:
             return state;

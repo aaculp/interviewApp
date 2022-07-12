@@ -1,23 +1,46 @@
 // Libraries
 
-import { useState, useEffect } from 'react';
+import {useContext} from 'react';
 
 // Dependencies
 
-const useGuessChecker = () => {
-    const [guessedCorrectly, setGuessedCorrectly] = useState(false);
-    const [guessesLeft, setGuessesLeft] = useState(5);
+import { AppContext } from '../global-state/context'
+import { actions } from '../global-state/reducer';
 
+const useNumberGenerator = () => {
+    const context = useContext(AppContext);
+    const { state, dispatch } = context;
+    const { guessedCorrectly, guessesLeft, randomNumber } = state
+
+    console.log("state is:", state)
 
     const isGuessCorrect = (numberGuessed) => {
-        setGuessedCorrectly(randomNumber === parseInt(numberGuessed));
+        if(randomNumber === parseInt(numberGuessed)) {
+            dispatch({
+                type: actions.GUESSED_CORRECTLY,
+                guessedCorrectly: true
+            })
+        } else {
+            dispatch({
+                type: actions.GUESSED_CORRECTLY,
+                guessedCorrectly: false
+            })
+        }
 
         if(!guessedCorrectly) {
-            setGuessesLeft(prevState => prevState - 1)
+            dispatch({
+                type: actions.GUESSES_LEFT
+            })
         }
     }
 
-    return { randomNumber, guessedCorrectly, guessesLeft, isGuessCorrect }
+    const resetGuesses = () =>
+    dispatch({
+        type: actions.GUESSES_RESET,
+        guessedCorrectly: false
+    })
+
+    return { guessedCorrectly, guessesLeft, isGuessCorrect, resetGuesses }
 }
 
-export default useGuessChecker;
+export default useNumberGenerator;

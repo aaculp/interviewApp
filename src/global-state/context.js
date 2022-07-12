@@ -3,8 +3,10 @@
 import { createContext } from 'react'
 
 export const initialState = {
-    initialized: false,
-    quizAnswers: {}
+    guessedCorrectly: false,
+    guessesLeft: 5,
+    randomNumber: 0,
+    playerName: '',
 }
 
-export const QuizContext = createContext(initialState)
+export const AppContext = createContext(initialState)

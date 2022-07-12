@@ -1,5 +1,6 @@
 // Libraries
 
+import { useReducer } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -11,11 +12,16 @@ import {
 import HomeScreen from './homeScreen';
 import MiddleScreen from './middleScreen';
 import ResultsScreen from './resultsScreen';
+import { AppContext, initialState } from "./global-state/context";
+import { reducer } from "./global-state/reducer";
 
 // Public
 
 const App = () => {
+  const [state, dispatch] = useReducer(reducer, initialState)
+
   return (
+    <AppContext.Provider value={{ state, dispatch }}>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomeScreen />} />
@@ -23,6 +29,7 @@ const App = () => {
         <Route path='/resultsScreen' element={<ResultsScreen />} />
       </Routes>
     </BrowserRouter>
+    </AppContext.Provider>
   );
 }
 

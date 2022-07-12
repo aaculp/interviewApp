@@ -9,6 +9,7 @@ import moment from 'moment';
 
 import NavBar from '../NavBar';
 import useNumberGenerator from '../hooks/useNumberGenerator';
+import useGuessChecker from '../hooks/useGuessChecker';
 
 // Private
 
@@ -74,15 +75,14 @@ const StyledButton = styled.button`
 const MiddleScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log("this is location", location)
-  const { randomNumber, guessedCorrectly, guessesLeft, isGuessCorrect } = useNumberGenerator();
+  const { randomNumber } = useNumberGenerator();
+  const { guessedCorrectly, guessesLeft, isGuessCorrect, resetGuesses } = useGuessChecker();
   const [playerGuessed, setPlayerGuessed] = useState(0);
   const [wrongAnswer, setWrongAnswer] = useState("");
   const [isClicked, setIsClicked] = useState(false);
 
   const handleOnClick = useCallback(() => {
     isGuessCorrect(playerGuessed);
-    console.log("guessesLeft", guessesLeft);
 
     if(guessesLeft >= 4) {
       setIsClicked(true);
@@ -107,6 +107,7 @@ const MiddleScreen = () => {
     if(guessesLeft === 0) {
       alert(`Sorry you lost, the random number was ${randomNumber}`)
       navigate("/resultsScreen")
+      resetGuesses()
     } else {
       if(guessesLeft === 1) {
         setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`)
@@ -116,19 +117,7 @@ const MiddleScreen = () => {
         setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
       }
     }
-  }, [guessesLeft, randomNumber, navigate])
-
-  // useEffect(() => {
-  //   if(guessedCorrectly) {
-  //     navigate("/resultsScreen", {
-  //       state: {
-  //         ...location.state,
-  //         randomNumber,
-  //         playerName: location.state.playerName
-  //       }
-  //     });
-  //   }
-  // }, [guessedCorrectly, randomNumber, navigate, location])
+  }, [guessesLeft, randomNumber, navigate, resetGuesses])
 
 
   return (
