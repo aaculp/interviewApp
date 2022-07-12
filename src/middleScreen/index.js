@@ -103,7 +103,7 @@ const MiddleScreen = () => {
           playerName: location.state.playerName
         }
       })
-      resetGuesses()
+      resetGuesses();
     } else {
       if(guessesLeft === 1) {
         setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`)
@@ -114,18 +114,6 @@ const MiddleScreen = () => {
       }
     }
   }, [guessesLeft, randomNumber, navigate, resetGuesses, location])
-
-  useEffect(() => {
-    if(guessedCorrectly) {
-      navigate("/resultsScreen", {
-        state: {
-          ...location.state,
-          randomNumber,
-          playerName: location.state.playerName
-        }
-      });
-    }
-  }, [guessedCorrectly, navigate, location, randomNumber])
 
 
   return (
