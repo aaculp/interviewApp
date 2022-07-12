@@ -91,22 +91,18 @@ const MiddleScreen = () => {
     if(guessesLeft <= 1) {
       setIsClicked(false);
     }
+  }, [isGuessCorrect, playerGuessed, guessesLeft])
 
-    if(guessedCorrectly) {
+  useEffect(() => {
+    if(guessesLeft === 0) {
+      alert(`Sorry you lost, the random number was ${randomNumber}`)
       navigate("/resultsScreen", {
         state: {
           ...location.state,
           randomNumber,
           playerName: location.state.playerName
         }
-      });
-    }
-  }, [isGuessCorrect, playerGuessed, guessesLeft, guessedCorrectly, navigate, randomNumber, location])
-
-  useEffect(() => {
-    if(guessesLeft === 0) {
-      alert(`Sorry you lost, the random number was ${randomNumber}`)
-      navigate("/resultsScreen")
+      })
       resetGuesses()
     } else {
       if(guessesLeft === 1) {
@@ -117,7 +113,19 @@ const MiddleScreen = () => {
         setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
       }
     }
-  }, [guessesLeft, randomNumber, navigate, resetGuesses])
+  }, [guessesLeft, randomNumber, navigate, resetGuesses, location])
+
+  useEffect(() => {
+    if(guessedCorrectly) {
+      navigate("/resultsScreen", {
+        state: {
+          ...location.state,
+          randomNumber,
+          playerName: location.state.playerName
+        }
+      });
+    }
+  }, [guessedCorrectly, navigate, location, randomNumber])
 
 
   return (
