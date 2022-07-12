@@ -101,7 +101,11 @@ const HomeScreen = () => {
         type="button" 
         value="Submit"
         onClick={() => {
-          navigate("/middleScreen", {state: {playerName}})
+          navigate("/middleScreen", {
+            state: {
+              playerName
+            }
+          })
         }}
       >Start!</StyledButton>
     </StyledContainer>

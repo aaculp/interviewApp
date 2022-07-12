@@ -31,31 +31,36 @@ const StyledTypography = styled.span`
 `;
 
 const StyledButton = styled.button`
-  ${({ $disabledButton }) => `
-    background-color: white;
-    border: 2px solid hotpink;
-    border-radius: 25px;
-    color: hotpink;
-    cursor: pointer;
-    font-size: 50px;
-    margin-top: 25px;
-    padding: 15px 30px;
-    text-decoration: none;
+  background-color: white;
+  border: 2px solid hotpink;
+  border-radius: 25px;
+  color: hotpink;
+  cursor: pointer;
+  font-size: 50px;
+  margin-top: 25px;
+  padding: 15px 30px;
+  text-decoration: none;
 
-    &&:visited {
-      color: hotpink;
-    }
-  `}
+  &&:visited {
+    color: hotpink;
+  }
 `;
 
 const ResultsScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [randomNumber] = useState(location.state.randomNumber);
-  const [playerName] = useState(location.state.playerName);
+
+  console.log("this is location", location)
+  const [randomNumber] = useState(location.state?.randomNumber ? location.state?.randomNumber : 0);
+  const [playerName] = useState(location.state?.playerName ? location.state?.playerName : '');
 
   const handleOnClick = () => {
-    navigate('/', {state: { randomNumber, playerName }})
+    navigate('/', {
+      state: {
+        randomNumber, 
+        playerName 
+      }
+    })
   }
 
   return(

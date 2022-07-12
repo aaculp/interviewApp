@@ -3,6 +3,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components'
+import moment from 'moment';
 
 // Dependencies
 
@@ -73,13 +74,34 @@ const StyledButton = styled.button`
 const MiddleScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  console.log("this is location", location)
   const { randomNumber, guessedCorrectly, guessesLeft, isGuessCorrect } = useNumberGenerator();
   const [playerGuessed, setPlayerGuessed] = useState(0);
   const [wrongAnswer, setWrongAnswer] = useState("");
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleOnClick = useCallback(() => {
-    isGuessCorrect(playerGuessed)
-  }, [isGuessCorrect, playerGuessed])
+    isGuessCorrect(playerGuessed);
+    console.log("guessesLeft", guessesLeft);
+
+    if(guessesLeft >= 4) {
+      setIsClicked(true);
+    }
+
+    if(guessesLeft <= 1) {
+      setIsClicked(false);
+    }
+
+    if(guessedCorrectly) {
+      navigate("/resultsScreen", {
+        state: {
+          ...location.state,
+          randomNumber,
+          playerName: location.state.playerName
+        }
+      });
+    }
+  }, [isGuessCorrect, playerGuessed, guessesLeft, guessedCorrectly, navigate, randomNumber, location])
 
   useEffect(() => {
     if(guessesLeft === 0) {
@@ -96,15 +118,17 @@ const MiddleScreen = () => {
     }
   }, [guessesLeft, randomNumber, navigate])
 
-  useEffect(() => {
-    if(guessedCorrectly) {
-      navigate("/resultsScreen", {
-        state: {
-          randomNumber, playerName: location.state.playerName
-        }
-      });
-    }
-  }, [guessedCorrectly, randomNumber, navigate, location])
+  // useEffect(() => {
+  //   if(guessedCorrectly) {
+  //     navigate("/resultsScreen", {
+  //       state: {
+  //         ...location.state,
+  //         randomNumber,
+  //         playerName: location.state.playerName
+  //       }
+  //     });
+  //   }
+  // }, [guessedCorrectly, randomNumber, navigate, location])
 
 
   return (
