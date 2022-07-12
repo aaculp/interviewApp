@@ -8,7 +8,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { AppContext } from '../global-state/context'
 import { actions } from '../global-state/reducer';
 
-const useNumberGenerator = () => {
+const useGuessChecker = () => {
     const context = useContext(AppContext);
     const navigate = useNavigate();
     const location = useLocation();
@@ -68,4 +68,4 @@ const useNumberGenerator = () => {
     return { guessesLeft, isGuessCorrect, resetGuesses }
 }
 
-export default useNumberGenerator;
+export default useGuessChecker;
