@@ -3,13 +3,13 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components'
-import moment from 'moment';
 
 // Dependencies
 
 import NavBar from '../NavBar';
 import useNumberGenerator from '../hooks/useNumberGenerator';
 import useGuessChecker from '../hooks/useGuessChecker';
+import useTimeToGuess from '../hooks/useTimeToGuess';
 
 // Private
 
@@ -76,27 +76,35 @@ const MiddleScreen = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { randomNumber } = useNumberGenerator();
+  const { handleFirstGuess, handleFinalGuess } = useTimeToGuess();
   const { guessesLeft, isGuessCorrect, resetGuesses } = useGuessChecker();
   
   const [playerGuessed, setPlayerGuessed] = useState(0);
   const [wrongAnswer, setWrongAnswer] = useState("");
-  const [isClicked, setIsClicked] = useState(false);
+  const [userGuessed, setUserGuessed] = useState([]);
 
-  const handleOnClick = useCallback(() => {
+  const handleOnClick = () => {
     isGuessCorrect(playerGuessed);
+    setUserGuessed(prevState => [...prevState, playerGuessed])
 
-    if(guessesLeft >= 4) {
-      setIsClicked(true);
+    console.log("guessesLeft", guessesLeft)
+    if(guessesLeft === 5) {
+      handleFirstGuess();
     }
 
-    if(guessesLeft <= 1) {
-      setIsClicked(false);
+    if(guessesLeft === 1) {
+      handleFinalGuess();
     }
-  }, [isGuessCorrect, playerGuessed, guessesLeft])
+  }
 
   useEffect(() => {
-    if(guessesLeft === 0) {
-      alert(`Sorry you lost, the random number was ${randomNumber}`)
+    if(guessesLeft === 5) {
+      setWrongAnswer("")
+    } else if(guessesLeft <= 4 && guessesLeft >= 2) {
+      setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`);
+    } else if(guessesLeft === 1) {
+      setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`);
+    } else {
       navigate("/resultsScreen", {
         state: {
           ...location.state,
@@ -105,14 +113,6 @@ const MiddleScreen = () => {
         }
       })
       resetGuesses();
-    } else {
-      if(guessesLeft === 1) {
-        setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guess left!`)
-      } else if (guessesLeft === 5)  {
-        setWrongAnswer("")
-      } else {
-        setWrongAnswer(`Sorry you guessed wrong, you have ${guessesLeft} guesses left!`)
-      }
     }
   }, [guessesLeft, randomNumber, navigate, resetGuesses, location])
 
@@ -124,6 +124,7 @@ const MiddleScreen = () => {
         <StyledTypography $textSize="25px">We've Generated A Random Number Between 1 - 20</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "10px"}}>Now You Have To Guess It In 5 Guesses Or Less!</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>The Random Number is: {randomNumber}</StyledTypography>
+        <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>So Far You've Guessed: {userGuessed.join(", ")}</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px"}}>Guesses Left: {guessesLeft}</StyledTypography>
         <StyledTypography $textSize="25px" style={{paddingTop: "30px", color: 'red'}}>{wrongAnswer}</StyledTypography>
 

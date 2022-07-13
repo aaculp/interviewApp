@@ -16,8 +16,6 @@ const useGuessChecker = () => {
     const { state, dispatch } = context;
     const { guessedCorrectly, guessesLeft, randomNumber } = state
 
-    console.log("state is:", state)
-
     const resetGuesses = useCallback(() => {
         dispatch({
             type: actions.GUESSES_RESET,
@@ -25,11 +23,12 @@ const useGuessChecker = () => {
         })
     }, [dispatch])
 
-    const guessedCorretlyTrue = () => 
-    dispatch({
-        type: actions.GUESSED_CORRECTLY,
-        guessedCorrectly: true
-    })
+    const guessedCorretlyTrue = useCallback(() =>  {
+        dispatch({
+            type: actions.GUESSED_CORRECTLY,
+            guessedCorrectly: true
+        })
+    }, [dispatch])
 
     const guessedCorretlyFalse = useCallback(() => {
         dispatch({
@@ -38,7 +37,7 @@ const useGuessChecker = () => {
         })
     }, [dispatch])
 
-    const isGuessCorrect = (numberGuessed) => {
+    const isGuessCorrect = useCallback((numberGuessed) => {
         if(randomNumber === parseInt(numberGuessed)) {
             guessedCorretlyTrue();
         }
@@ -47,11 +46,9 @@ const useGuessChecker = () => {
             dispatch({
                 type: actions.GUESSES_LEFT
             })
-        }
-    }
-
-    useEffect(() => {
-        if(guessedCorrectly) {
+        } else {
+            resetGuesses();
+            guessedCorretlyFalse();
             navigate("/resultsScreen", {
                 state: {
                 ...location.state,
@@ -59,11 +56,17 @@ const useGuessChecker = () => {
                 playerName: location.state.playerName
                 }
             });
-
-            guessedCorretlyFalse();
-            resetGuesses();
         }
-      }, [guessedCorrectly, navigate, location, randomNumber, guessedCorretlyFalse, resetGuesses])
+    }, [
+        guessedCorretlyTrue, 
+        guessedCorrectly, 
+        dispatch, 
+        guessedCorretlyFalse, 
+        resetGuesses, 
+        navigate,
+        location,
+        randomNumber
+    ]);
 
     return { guessesLeft, isGuessCorrect, resetGuesses }
 }
