@@ -7,11 +7,13 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { AppContext } from '../global-state/context'
 import { actions } from '../global-state/reducer';
+import useTimeToGuess from './useTimeToGuess';
 
 const useGuessChecker = () => {
     const context = useContext(AppContext);
     const navigate = useNavigate();
     const location = useLocation();
+    const { handleFinalGuess } = useTimeToGuess();
 
     const { state, dispatch } = context;
     const { guessedCorrectly, guessesLeft, randomNumber } = state
@@ -35,9 +37,9 @@ const useGuessChecker = () => {
             type: actions.GUESSED_CORRECTLY,
             guessedCorrectly: false
         })
-    }, [dispatch])
+    }, [dispatch]);
 
-    const isGuessCorrect = useCallback((numberGuessed) => {
+    const isGuessCorrect = (numberGuessed) => {
         if(randomNumber === parseInt(numberGuessed)) {
             guessedCorretlyTrue();
         }
@@ -46,9 +48,14 @@ const useGuessChecker = () => {
             dispatch({
                 type: actions.GUESSES_LEFT
             })
-        } else {
-            resetGuesses();
+        }
+    };
+
+    useEffect(() => {
+        if(guessedCorrectly) {
             guessedCorretlyFalse();
+            resetGuesses();
+
             navigate("/resultsScreen", {
                 state: {
                 ...location.state,
@@ -56,17 +63,9 @@ const useGuessChecker = () => {
                 playerName: location.state.playerName
                 }
             });
+
         }
-    }, [
-        guessedCorretlyTrue, 
-        guessedCorrectly, 
-        dispatch, 
-        guessedCorretlyFalse, 
-        resetGuesses, 
-        navigate,
-        location,
-        randomNumber
-    ]);
+      }, [guessedCorrectly, guessedCorretlyFalse, resetGuesses, navigate, location, randomNumber])
 
     return { guessesLeft, isGuessCorrect, resetGuesses }
 }

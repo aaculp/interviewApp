@@ -87,7 +87,7 @@ const MiddleScreen = () => {
     isGuessCorrect(playerGuessed);
     setUserGuessed(prevState => [...prevState, playerGuessed])
 
-    console.log("guessesLeft", guessesLeft)
+    console.log("guessesLeft", guessesLeft);
     if(guessesLeft === 5) {
       handleFirstGuess();
     }

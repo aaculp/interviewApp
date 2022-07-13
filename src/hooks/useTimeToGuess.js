@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useState, useContext} from 'react';
+import React, { useState,useCallback, useContext} from 'react';
 import moment from 'moment';
 
 // Dependencies
@@ -12,7 +12,6 @@ const useTimeToGuess = () => {
     const context = useContext(AppContext);
     
     const { state } = context;
-    const { randomNumber } = state;
     const [startTime, setStartTime] = useState({ minutes: 0, seconds: 0 });
     const [endTime, setEndTime] = useState({ minutes: 0, seconds: 0 });
 
@@ -24,12 +23,17 @@ const useTimeToGuess = () => {
         setEndTime({ minutes: moment().minutes(), seconds: moment().seconds()})
     };
 
-    React.useEffect(() => {
+    const calculateTime = useCallback(() => {
         console.log("startTime", startTime);
         console.log("endTime", endTime);
+        console.count();
     }, [startTime, endTime])
 
-    return { handleFirstGuess, handleFinalGuess }
+    React.useEffect(() => {
+        calculateTime();
+    }, [calculateTime, endTime])
+
+    return { handleFirstGuess, handleFinalGuess, calculateTime }
 }
 
 export default useTimeToGuess;
