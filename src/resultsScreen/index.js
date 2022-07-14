@@ -6,6 +6,8 @@ import styled from 'styled-components'
 
 // Dependencies
 
+import useTimeToGuess from '../hooks/useTimeToGuess';
+
 // Private
 
 const StyledContainer = styled.div`

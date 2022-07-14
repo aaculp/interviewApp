@@ -1,28 +1,54 @@
 // Libraries
 
-import React, { useState,useCallback} from 'react';
+import React, { useState,useCallback, useContext} from 'react';
 import moment from 'moment';
 
+// Dependencies
+
+import { actions } from '../global-state/reducer';
+import { AppContext } from '../global-state/context'
+
 const useTimeToGuess = () => {
-    const [startTime, setStartTime] = useState({ minutes: 0, seconds: 0 });
-    const [endTime, setEndTime] = useState({ minutes: 0, seconds: 0 });
+    const context = useContext(AppContext);
+    
+    const { state, dispatch } = context;
+    const { startTime, endTime } = state.playerTime;
 
     const handleFirstGuess = () => {
-        setStartTime({ minutes: moment().minutes(), seconds: moment().seconds()})
+        dispatch({
+            type: actions.START_TIME,
+            startTime: { 
+                minutes: moment().minutes(), 
+                seconds: moment().seconds() 
+            }
+        })
     };
 
     const handleFinalGuess = () => {
-        setEndTime({ minutes: moment().minutes(), seconds: moment().seconds()})
+        dispatch({
+            type: actions.END_TIME,
+            endTime: { 
+                minutes: moment().minutes(), 
+                seconds: moment().seconds() 
+            }
+        })
+
         calculateTime();
     };
 
     const calculateTime = useCallback(() => {
-        console.log("startTime", startTime);
-        console.log("endTime", endTime);
+        console.log("calculating")
+        console.log("startTime.minutes", startTime.minutes)
+        console.log("endTime.minutes", endTime.minutes)
+        if(startTime.minutes === endTime.minutes) {
+            console.log("here")
+        }
+
     }, [startTime, endTime])
 
     React.useEffect(() => {
-        calculateTime();
+        console.log("startTime", startTime);
+        console.log("endTime", endTime);
     }, [calculateTime, startTime, endTime])
 
     return { handleFirstGuess, handleFinalGuess, calculateTime }

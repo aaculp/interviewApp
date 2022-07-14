@@ -56,13 +56,13 @@ const useGuessChecker = () => {
             handleFinalGuess();
             guessedCorretlyFalse();
             resetGuesses();
-            navigate("/resultsScreen", {
-                state: {
-                ...location.state,
-                randomNumber,
-                playerName: location.state.playerName
-                }
-            });
+            // navigate("/resultsScreen", {
+            //     state: {
+            //     ...location.state,
+            //     randomNumber,
+            //     playerName: location.state.playerName
+            //     }
+            // });
 
         }
       }, [guessedCorrectly, handleFinalGuess, guessedCorretlyFalse, resetGuesses, navigate, location, randomNumber])

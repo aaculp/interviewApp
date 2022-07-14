@@ -8,8 +8,8 @@ export const initialState = {
     randomNumber: 0,
     playerName: '',
     playerTime: {
-        startTime: 0,
-        endTime: 0,
+        startTime: { minutes: 0, seconds: 0 },
+        endTime: { minutes: 0, seconds: 0 },
         totalTime: 0,
     }
 }
