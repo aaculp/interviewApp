@@ -53,9 +53,9 @@ const useGuessChecker = () => {
 
     useEffect(() => {
         if(guessedCorrectly) {
+            handleFinalGuess();
             guessedCorretlyFalse();
             resetGuesses();
-
             navigate("/resultsScreen", {
                 state: {
                 ...location.state,
@@ -65,7 +65,7 @@ const useGuessChecker = () => {
             });
 
         }
-      }, [guessedCorrectly, guessedCorretlyFalse, resetGuesses, navigate, location, randomNumber])
+      }, [guessedCorrectly, handleFinalGuess, guessedCorretlyFalse, resetGuesses, navigate, location, randomNumber])
 
     return { guessesLeft, isGuessCorrect, resetGuesses }
 }
