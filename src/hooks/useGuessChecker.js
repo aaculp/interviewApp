@@ -13,7 +13,7 @@ const useGuessChecker = () => {
     const context = useContext(AppContext);
     const navigate = useNavigate();
     const location = useLocation();
-    const { handleFinalGuess } = useTimeToGuess();
+    const { handleFinalGuess, calculateTime } = useTimeToGuess();
 
     const { state, dispatch } = context;
     const { guessedCorrectly, guessesLeft, randomNumber } = state
@@ -57,15 +57,24 @@ const useGuessChecker = () => {
             guessedCorretlyFalse();
             resetGuesses();
             // navigate("/resultsScreen", {
-            //     state: {
-            //     ...location.state,
-            //     randomNumber,
-            //     playerName: location.state.playerName
-            //     }
-            // });
-
+                //     state: {
+                    //     ...location.state,
+                    //     randomNumber,
+                    //     playerName: location.state.playerName
+                    //     }
+                    // });
+            calculateTime();
         }
-      }, [guessedCorrectly, handleFinalGuess, guessedCorretlyFalse, resetGuesses, navigate, location, randomNumber])
+      }, [
+          guessedCorrectly, 
+          handleFinalGuess, 
+          guessedCorretlyFalse, 
+          resetGuesses, 
+          navigate, 
+          location, 
+          randomNumber,
+          calculateTime
+        ])
 
     return { guessesLeft, isGuessCorrect, resetGuesses }
 }

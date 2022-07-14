@@ -32,24 +32,16 @@ const useTimeToGuess = () => {
                 seconds: moment().seconds() 
             }
         })
-
-        calculateTime();
     };
 
-    const calculateTime = useCallback(() => {
+    const calculateTime = () => {
         console.log("calculating")
         console.log("startTime.minutes", startTime.minutes)
         console.log("endTime.minutes", endTime.minutes)
         if(startTime.minutes === endTime.minutes) {
             console.log("here")
         }
-
-    }, [startTime, endTime])
-
-    React.useEffect(() => {
-        console.log("startTime", startTime);
-        console.log("endTime", endTime);
-    }, [calculateTime, startTime, endTime])
+    }
 
     return { handleFirstGuess, handleFinalGuess, calculateTime }
 }
