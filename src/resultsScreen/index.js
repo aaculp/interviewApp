@@ -79,7 +79,7 @@ const ResultsScreen = () => {
           <StyledTypography>Sorry {playerName}, you didn't guess correct.</StyledTypography>
         )}
         <StyledTypography>The random number was: {randomNumber}</StyledTypography>
-        <StyledTypography>It took you {totalTime}.</StyledTypography>
+        <StyledTypography>{totalTime}.</StyledTypography>
       </StyleFlexContainer>
       <StyledButton onClick={handleOnClick}>Play again!</StyledButton>
     </StyledContainer>
