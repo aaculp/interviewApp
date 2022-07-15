@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useState,useCallback, useContext} from 'react';
+import { useContext } from 'react';
 import moment from 'moment';
 
 // Dependencies
@@ -12,7 +12,7 @@ const useTimeToGuess = () => {
     const context = useContext(AppContext);
     
     const { state, dispatch } = context;
-    const { startTime, endTime } = state.playerTime;
+    const { startTime, endTime, totalTime } = state.playerTime;
 
     const handleFirstGuess = () => {
         dispatch({
@@ -35,15 +35,20 @@ const useTimeToGuess = () => {
     };
 
     const calculateTime = () => {
-        console.log("calculating")
-        console.log("startTime.minutes", startTime.minutes)
-        console.log("endTime.minutes", endTime.minutes)
         if(startTime.minutes === endTime.minutes) {
-            console.log("here")
+           return dispatch({
+                type: actions.TOTAL_TIME,
+                totalTime: `Your time was ${endTime.seconds - startTime.seconds}s`,
+            })
+        } else {
+           return dispatch({
+                type: actions.TOTAL_TIME,
+                totalTime: `Your time was ${endTime.minutes - startTime.minutes} minutes and ${endTime.seconds - startTime.seconds}s`,
+            })
         }
     }
 
-    return { handleFirstGuess, handleFinalGuess, calculateTime }
+    return { totalTime, handleFirstGuess, handleFinalGuess, calculateTime }
 }
 
 export default useTimeToGuess;

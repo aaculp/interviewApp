@@ -1,6 +1,6 @@
 // Libraries
 
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from 'styled-components'
 
@@ -108,7 +108,8 @@ const MiddleScreen = () => {
         state: {
           ...location.state,
           randomNumber,
-          playerName: location.state.playerName
+          playerName: location.state.playerName,
+          playerGuessedCorrect: false,
         }
       })
       resetGuesses();

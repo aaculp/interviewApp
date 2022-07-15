@@ -1,6 +1,6 @@
 // Libraries
 
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 
@@ -51,9 +51,11 @@ const StyledButton = styled.button`
 const ResultsScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { totalTime, calculateTime } = useTimeToGuess();
 
   const [randomNumber] = useState(location.state?.randomNumber ? location.state?.randomNumber : 0);
   const [playerName] = useState(location.state?.playerName ? location.state?.playerName : '');
+  const [playerGuessedCorrect] = useState(location.state?.playerGuessedCorrect)
 
   const handleOnClick = () => {
     navigate('/', {
@@ -62,13 +64,22 @@ const ResultsScreen = () => {
         playerName 
       }
     })
-  }
+  };
+
+  useEffect(() => {
+    calculateTime();
+  }, [])
 
   return(
     <StyledContainer>
       <StyleFlexContainer>
-        <StyledTypography>Wow what a guess, {playerName}!</StyledTypography>
+        {playerGuessedCorrect ? (
+            <StyledTypography>Wow what a guess, {playerName}!</StyledTypography>
+        ) : (
+          <StyledTypography>Sorry {playerName}, you didn't guess correct.</StyledTypography>
+        )}
         <StyledTypography>The random number was: {randomNumber}</StyledTypography>
+        <StyledTypography>It took you {totalTime}.</StyledTypography>
       </StyleFlexContainer>
       <StyledButton onClick={handleOnClick}>Play again!</StyledButton>
     </StyledContainer>

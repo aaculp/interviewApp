@@ -10,7 +10,7 @@ export const initialState = {
     playerTime: {
         startTime: { minutes: 0, seconds: 0 },
         endTime: { minutes: 0, seconds: 0 },
-        totalTime: 0,
+        totalTime: "",
     }
 }
 

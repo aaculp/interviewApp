@@ -51,7 +51,7 @@ export const reducer = (state, action) => {
                 ...state,
                 playerTime: {
                     ...state.playerTime,
-                    endTime: { ...action.endTime }
+                    endTime: action.endTime
                 }
             }
         case TOTAL_TIME:
